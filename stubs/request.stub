@@ -1,0 +1,73 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Requests\MasterApiRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+use App\Traits\RespondsWithHttpStatus;
+
+class {{ class }} extends MasterApiRequest
+{
+    use RespondsWithHttpStatus;
+
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+
+    public function rules(): array
+    {
+        return [
+            //
+        ];
+    }
+    
+    /**
+     * Can write custom messages on validation errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            //
+        ];
+    }
+
+    /**
+     * Filters to be applied to the input.
+     *
+     * @return array
+     */
+    public function filters()
+    {
+        return [
+            //
+        ];
+    }
+    
+    /**
+     * Validation Error for response for Apis.
+     *
+     * @return array
+     */
+
+    public function failedValidation(Validator $validator)
+
+    {
+        
+        throw new HttpResponseException($this->failure('Validation errors', $validator->errors(), 422));
+
+    }
+
+}
