@@ -6,10 +6,15 @@ use App\Http\Requests\MasterApiRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use App\Traits\RespondsWithHttpStatus;
+//https://github.com/elegantweb/sanitizer
+use Elegant\Sanitizer\Laravel\SanitizesInput;
+
 
 class UserRegisterRequest extends MasterApiRequest
 {
     use RespondsWithHttpStatus;
+    use SanitizesInput;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,7 +31,7 @@ class UserRegisterRequest extends MasterApiRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'first_name' => 'required',
             'username' => 'required|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required',
@@ -59,7 +64,9 @@ class UserRegisterRequest extends MasterApiRequest
     public function filters()
     {
         return [
-            'name' => 'trim',
+            'first_name' => 'trim',
+            'middle_name' => 'trim',
+            'last_name' => 'trim',
             'username' => 'trim|lowercase',
             'email' => 'trim|lowercase',
             'password' => 'trim',

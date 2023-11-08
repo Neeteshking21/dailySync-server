@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginRegisterController;
+use App\Http\Controllers\V1\Auth\LoginRegisterController;
+use App\Http\Controllers\V1\WorkspaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +18,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/test', function(Request $request) {
     return response()->json(['msg' => 'Hey there']);
 });
+Route::get('/unauthenticate', function () {
+    return response()->json(['success'=> false, 'message' => 'unauthenticate'], 401);
+})->name('unauthenticate');
 
 Route::group(['prefix' => '/'], function () {
-    Route::get('/', function(Request $request) {
-        return response()->json(['msg' => 'APi there']);
-    });
     Route::post('/login', [LoginRegisterController::class, 'login']);
     Route::post('/register', [LoginRegisterController::class, 'register']);
-    Route::post('/forgot-password', [LoginRegisterController::class, 'forgotPassword']);
-    Route::post('/verify-otp', [LoginRegisterController::class, 'verifyOTP']);
+    Route::get('/verifyToken', [LoginRegisterController::class, 'verifyToken']);
+    Route::post('/forgot-password', [LoginRegisterController::class, 'forgotPassword']); // not completed
+});
+
+Route::middleware(['auth:api', 'verified'])->group(function () {
+    Route::post('/logout', [LoginRegisterController::class, 'logout']);
+    Route::post('/logout/all', [LoginRegisterController::class, 'logoutAll']);
+
+    /* Workspace Management */
+    Route::resource('/workspaces', WorkspaceController::class);
 });

@@ -6,10 +6,12 @@ use App\Http\Requests\MasterApiRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 use App\Traits\RespondsWithHttpStatus;
+// https://github.com/elegantweb/sanitizer
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 
 class {{ class }} extends MasterApiRequest
 {
-    use RespondsWithHttpStatus;
+    use RespondsWithHttpStatus, SanitizesInput;
 
     /**
      * Determine if the user is authorized to make this request.

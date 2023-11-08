@@ -6,17 +6,21 @@ use App\Http\Requests\MasterApiRequest;
 use App\Traits\RespondsWithHttpStatus;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+// https://github.com/elegantweb/sanitizer
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 
-class VerifyOtpRequest extends MasterApiRequest
+class VerifyTokenRequest extends MasterApiRequest
 {
     use RespondsWithHttpStatus;
+    use SanitizesInput;
+
 
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +33,7 @@ class VerifyOtpRequest extends MasterApiRequest
     {
         return [
             //
-            'otp' => 'required|number'
+            // 'token' => 'required'
         ];
     }
     
@@ -42,8 +46,7 @@ class VerifyOtpRequest extends MasterApiRequest
     {
         return [
             //
-            'otp.required' => 'OTP is required!',
-            'otp.number' => 'OTP should be a number!'
+            'token.required' => 'Token is required!'
         ];
     }
 
@@ -56,7 +59,7 @@ class VerifyOtpRequest extends MasterApiRequest
     {
         return [
             //
-            'otp' => 'trim'
+            'token' => 'trim'
         ];
     }
     

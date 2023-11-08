@@ -6,10 +6,13 @@ use App\Http\Requests\MasterApiRequest;
 use App\Traits\RespondsWithHttpStatus;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+//https://github.com/elegantweb/sanitizer
+use Elegant\Sanitizer\Laravel\SanitizesInput;
 
 class ForgotPasswordRequest extends MasterApiRequest
 {
     use RespondsWithHttpStatus;
+    use SanitizesInput;
 
     /**
      * Determine if the user is authorized to make this request.
