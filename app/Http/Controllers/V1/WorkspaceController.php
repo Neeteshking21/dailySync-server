@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\WorkspaceCreateRequest;
+use App\Http\Requests\V1\WorkspaceDestroyRequest;
+use App\Http\Requests\V1\WorkspaceIndexRequest;
+use App\Http\Requests\V1\WorkspaceUpdateRequest;
 use App\Http\Services\WorkspaceService;
 use App\Models\workspace;
 use Illuminate\Http\Request;
@@ -18,57 +22,52 @@ class WorkspaceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(WorkspaceIndexRequest $request)
     {
-        //
-        return $this->WorkspaceService->getWorkspaces($request->all());
+        //get
+        $params = [
+            '_user' => Auth::User(),
+            ...$request->all()
+        ];
+        return $this->WorkspaceService->getWorkspaces($params);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function store(WorkspaceCreateRequest $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(workspace $workspace)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(workspace $workspace)
-    {
-        //
+        //post
+        $params = [
+            '_user' => Auth::User(),
+            ...$request->all()
+        ];
+        return $this->WorkspaceService->createWorkspace($params);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, workspace $workspace)
+    public function update(WorkspaceUpdateRequest $request)
     {
-        //
+        // put/patch
+        $params = [
+            '_user' => Auth::User(),
+            ...$request->all()
+        ];
+        return $this->WorkspaceService->updateWorkspace($params);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(workspace $workspace)
+    public function destroy(WorkspaceDestroyRequest $request)
     {
-        //
+        //DELETE
+        $params = [
+            '_user' => Auth::User(),
+            ...$request->all()
+        ];
+        return $this->WorkspaceService->softDeleteWorkspaces($params);
     }
 }

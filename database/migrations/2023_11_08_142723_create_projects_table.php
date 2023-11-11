@@ -17,9 +17,10 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->json('member_ids');
+            $table->softDeletes();
             $table->timestamps();
             
-            $table->foreign('workspace_id')->references('id')->on('workspaces');
+            $table->foreign('workspace_id')->references('id')->on('workspaces')->onDelete('cascade');
             $table->unique(['workspace_id', 'title']);
         });
     }

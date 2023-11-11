@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\Task;
+use App\Http\Controllers\Controller;
+use App\Models\Status;
 use Illuminate\Http\Request;
 
-class TaskController extends Controller
+class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +35,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Status $status)
     {
         //
     }
@@ -42,7 +43,7 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(Status $status)
     {
         //
     }
@@ -50,7 +51,7 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Status $status)
     {
         //
     }
@@ -58,7 +59,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Status $status)
     {
         //
     }

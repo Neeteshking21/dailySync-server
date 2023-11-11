@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Jobs\ProcessMails;
 use App\Models\User;
 use App\Models\Verifications;
 use App\Mail\verifyMail;
@@ -50,10 +51,11 @@ class LoginRegisterService {
                     'email' => $user->email,
                     'token' => $vToken
                 );
-                $is_sent = Mail::to($user->email)->send(new verifyMail($mail_details));
-                if(!$is_sent) {
-                    throw new \Exception("Verification Mail failed");
-                }
+                dispatch(new ProcessMails($user->email, new verifyMail($mail_details)));
+                // $is_sent = Mail::to($user->email)->send(new verifyMail($mail_details));
+                // if(!$is_sent) {
+                //     throw new \Exception("Verification Mail failed");
+                // }
                /*  $token = $user->createToken('DailySyncApiV1')->accessToken;
                 $response_data = array(
                     'first_name' => $user->first_name,
@@ -98,9 +100,11 @@ class LoginRegisterService {
     
     public function verifyToken($token) {
         try {
-            $verification = Verifications::where('token', $token)->first();
+            $verification = Verifications::where([['token', $token], ['is_verified', 0]])->first();
             if($verification) {
                 $user = User::where('id', $verification->user_id)->update(['email_verified_at'=> now()]);
+                $verification->is_verified = 1;
+                $verification->save();
                 if(!$user) {
                     throw new \Exception('Failed to verificaton token!');
                 }
@@ -108,9 +112,9 @@ class LoginRegisterService {
                     'Account verified, please login now.'
                 );
             }
-            throw new \Exception('Invalid verification token');
+            throw new \Exception('Page not found!');
         }catch(\Exception $e) {
-            return $this->failure($e->getMessage(), 501);
+            return $this->failure($e->getMessage(), [], 404);
         }
     }
   

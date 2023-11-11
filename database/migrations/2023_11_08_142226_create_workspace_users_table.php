@@ -16,12 +16,13 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('workspace_id');
             $table->json('subordinates');
-            $table->string('role');
-            $table->string('access_type');
+            $table->json('role')->nullable();
+            $table->string('access_type')->default('organizer');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('workspace_id')->references('id')->on('workspaces');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('workspace_id')->references('id')->on('workspaces')->onDelete('cascade');
+            $table->softDeletes();
             $table->unique(['user_id', 'workspace_id']);
         });
     }

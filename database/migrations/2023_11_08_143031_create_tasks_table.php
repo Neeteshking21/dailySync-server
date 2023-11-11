@@ -21,12 +21,13 @@ return new class extends Migration
             $table->string('status');
             $table->unsignedBigInteger('assignee_id');
             $table->unsignedBigInteger('reporter_id');
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('module_id')->references('id')->on('modules');
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->foreign('assignee_id')->references('id')->on('users');
-            $table->foreign('reporter_id')->references('id')->on('users');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('assignee_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('reporter_id')->references('id')->on('users')->onDelete('cascade');
             $table->unique(['module_id', 'task_number']);
         });
     }

@@ -16,9 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id');
             $table->string('title');
             $table->text('description');
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->unique(['project_id', 'title']);
         });
     }

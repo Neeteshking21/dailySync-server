@@ -16,10 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('writer_id')->comment('Id of user that wrote this comment');
             $table->string('comment');
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('task_id')->references('id')->on('tasks');
-            $table->foreign('writer_id')->references('id')->on('users');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
+            $table->foreign('writer_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

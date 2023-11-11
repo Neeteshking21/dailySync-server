@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('workspaces', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->index('name');
             $table->unique(['user_id', 'name']);
+            $table->softDeletes(); 
             $table->timestamps();
         });
     }

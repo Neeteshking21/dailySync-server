@@ -34,5 +34,11 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('/logout/all', [LoginRegisterController::class, 'logoutAll']);
 
     /* Workspace Management */
-    Route::resource('/workspaces', WorkspaceController::class);
+    Route::group(['prefix' => '/workspaces'], function() {
+        Route::get('/', [WorkspaceController::class, 'index']);
+        Route::post('/', [WorkspaceController::class, 'store']);
+        Route::put('/', [WorkspaceController::class, 'update']);
+        Route::delete('/', [WorkspaceController::class, 'destroy']);
+    });
+    // Route::resource('/workspaces', WorkspaceController::class);
 });

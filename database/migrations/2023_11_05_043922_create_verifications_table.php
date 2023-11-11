@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->boolean('is_verified')->default(false);
             $table->timestamp('expires_at')->nullable();
+            $table->softDeletes(); 
             $table->timestamps();
         });
     }

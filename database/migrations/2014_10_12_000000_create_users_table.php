@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
-            $table->string('last_name_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profile');
+            $table->string('profile')->nullable();
             $table->rememberToken();
+            $table->softDeletes(); 
             $table->timestamps();
         });
     }

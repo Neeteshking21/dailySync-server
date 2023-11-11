@@ -17,10 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger('task_id');
             $table->string('type');
             $table->string('path');
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('comment_id')->references('id')->on('comments');
-            $table->foreign('task_id')->references('id')->on('tasks');
+            $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
         });
     }
 

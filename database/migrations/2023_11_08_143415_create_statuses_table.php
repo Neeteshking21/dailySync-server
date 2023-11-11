@@ -16,10 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('creator_id');
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->foreign('creator_id')->references('id')->on('users');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->unique(['project_id', 'name']);
         });
     }
